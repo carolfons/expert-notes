@@ -1,12 +1,17 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import { X } from 'lucide-react'
 import { ChangeEvent, FormEvent, useState } from 'react'
-import {toast} from 'sonner'
+import { toast } from 'sonner'
 
-export function NewNoteCard() {
+interface NewNoteCardProps {
+    onNoteCreated: (content: string) => void
+}
+
+export function NewNoteCard({ onNoteCreated }: NewNoteCardProps) {
 
     const [shouldShowOnboarding, setShouldShowOnboarding] = useState(true)
-    const[content, setContent] = useState('')
+    const [content, setContent] = useState('')
+    const [isRecording, setIsRecording] = useState(false)
 
     function handleStartEditor() {
         setShouldShowOnboarding(false)
@@ -22,8 +27,13 @@ export function NewNoteCard() {
     function handleSaveNote(event: FormEvent) {
         event.preventDefault()
         console.log(content)
+        onNoteCreated(content)
         toast.success('Nota criada com sucesso')
 
+    }
+
+    function handleStartRecording() {
+        setIsRecording(true)
     }
 
     return (
@@ -49,7 +59,7 @@ export function NewNoteCard() {
                             {/* se 'shouldShowOnboarding' for true, colocar texto original, se não mostrar a <textarea> */}
                             {shouldShowOnboarding ? (
                                 <p className=' text-sm leading-6 text-slate-400'>
-                                    Comece <button className='font-medium text-lime-400 hover:underline'>gravando uma nota</button> em áudio ou se preferir <button onClick={handleStartEditor} className='font-medium text-lime-400 hover:underline'>utilize apenas texto</button>.
+                                    Comece <button type='button' onClick={handleStartRecording} className='font-medium text-lime-400 hover:underline'>gravando uma nota</button> em áudio ou se preferir <button type = 'button' onClick={handleStartEditor} className='font-medium text-lime-400 hover:underline'>utilize apenas texto</button>.
                                 </p>
                             ) : (
                                 <textarea autoFocus
@@ -57,10 +67,19 @@ export function NewNoteCard() {
                                     onChange={handleContentChanged} />
                             )}
                         </div>
-                        <button type='button'
-                            className='w-full bg-lime-400 py-4 text-center text-sm text-lime-950 outline-none font-medium hover:bg-lime-500'>
-                            Salvar Nota
-                        </button>
+
+                        {isRecording ? (
+                            <button type='submit'
+                                className='w-full bg-slate-900 py-4 text-center text-sm text-slate-300 outline-none font-medium hover:text-slate-100'>
+                                Gravando! (Clique para interromper)
+                            </button>
+                        ) : (
+                            <button type='submit'
+                                className='w-full bg-lime-400 py-4 text-center text-sm text-lime-950 outline-none font-medium hover:bg-lime-500'>
+                                Salvar Nota
+                            </button>
+                        )}
+
                     </form>
                 </Dialog.Content>
             </Dialog.Portal>
