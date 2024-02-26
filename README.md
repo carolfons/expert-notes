@@ -22,7 +22,7 @@
  <img src="https://img.shields.io/badge/react-%2320232a.svg?logo=react&logoColor=%2361DAFB">
  <img src="https://img.shields.io/badge/radix%20ui-161618.svg?logo=radix-ui&logoColor=white">
 </p>
-
+<p>You can check the project <a href = "https://expert-notes-six.vercel.app/">here</a></p>
 <h3  id="usage">>Usage</h3>
 <p>To run the application on your machine locally, make sure you have `Node.js` and `npm` installed before proceeding with the steps below:</p>
 1. Clone the project:
